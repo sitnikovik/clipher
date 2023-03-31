@@ -1,0 +1,21 @@
+{
+    "name": "sitnikovik/cli-beatify",
+    "description": "Beatifies your cli scripts with colors, bolds, loading bars and much more",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Sitnikovik\\CliBeatify\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ilya Sitnikov",
+            "email": "sitnikovik@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "ext-readline": "*"
+    }
+}
