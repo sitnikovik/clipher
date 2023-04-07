@@ -2,7 +2,6 @@
 
 namespace Sitnikovik\CliBeatify;
 
-use Sitnikovik\CliBeatify\Argument\Argument;
 use Sitnikovik\CliBeatify\Progressbar\Progressbar;
 use Sitnikovik\CliBeatify\Style\Background;
 use Sitnikovik\CliBeatify\Style\StyleInterface;
@@ -20,35 +19,6 @@ class Console implements StyleInterface
      * @var StyleInterface
      */
     protected $bgStyle;
-
-    /**
-     * Command description
-     *
-     * @var string
-     */
-    private $description = '';
-
-    /**
-     * Help information
-     *
-     * @var string
-     */
-    private $help = '';
-
-    /**
-     * Command arguments
-     *
-     * @var Argument[]
-     */
-    private $arguments = [];
-
-    /**
-     * Command options
-     *
-     *
-     * @var array
-     */
-    private $options = [];
 
     /**
      * @param StyleInterface|null $textStyle
@@ -94,86 +64,6 @@ class Console implements StyleInterface
     public function setBgStyle($bgStyle): self
     {
         $this->bgStyle = $bgStyle;
-
-        return $this;
-    }
-
-    /**
-     * @param string $alias
-     * @param string $description
-     * @return $this
-     */
-    public function requireArgument(string $alias, string $description = ''): self
-    {
-        $this->arguments[$alias] = new Argument(
-            count($this->arguments) + 1,
-            $alias,
-            true,
-            $description
-        );
-
-        return $this;
-    }
-
-    /**
-     * @param string $alias
-     * @param string $description
-     * @return $this
-     */
-    public function handleArgument(string $alias, string $description = ''): self
-    {
-        $this->arguments[$alias] = new Argument(
-            count($this->arguments) + 1,
-            $alias,
-            false,
-            $description
-        );
-
-        return $this;
-    }
-
-    /**
-     * Returns command description
-     *
-     * @return string
-     */
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * Sets command description
-     *
-     * @param string $description
-     * @return $this
-     */
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Returns command help information how to use
-     *
-     * @return string
-     */
-    public function getHelp(): string
-    {
-        return $this->help;
-    }
-
-    /**
-     * Sets help information
-     *
-     * @param string $help
-     * @return $this
-     */
-    public function setHelp(string $help): self
-    {
-        $this->help = $help;
 
         return $this;
     }
@@ -257,12 +147,14 @@ class Console implements StyleInterface
      * Creates and returns progressbar object
      *
      * @param int $max
+     * @param int $barWidth Provide `0` to stretch the bar
      * @return Progressbar
      */
-    public static function createProgressbar(int $max): Progressbar
+    public static function createProgressbar(int $max, int $barWidth = 50): Progressbar
     {
-        return new Progressbar($max);
+        return new Progressbar($max, $barWidth);
     }
+
 
     /**
      * Prints separate line

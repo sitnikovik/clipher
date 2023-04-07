@@ -13,7 +13,7 @@ class Progressbar
 
     /**
      * Counter that be incremented on process
-     * @var int
+     * @var float
      */
     private $now = 0;
 
@@ -25,38 +25,105 @@ class Progressbar
     private $isFinished = false;
 
     /**
-     * @param int $max
+     * Bar width that placed in output
+     *
+     * @var int
      */
-    public function __construct($max)
+    private $widthInPixels;
+
+    /**
+     * @param int $max
+     * @param int $widthInPixels
+     */
+    public function __construct(int $max, int $widthInPixels = 0 )
     {
         $this->max = $max;
+        $this->widthInPixels = $widthInPixels;
     }
 
     /**
      * Increment progress value
-     * @param int $done
+     *
+     * @param float|null $done
      * @return void
      */
-    public function advance(int $done = 1): void
+    public function advance(float $done = 0): void
     {
         if ($this->isFinished) {
             return;
         }
 
-        $this->now += $done;
-
-        if ($this->now >= $this->max) {
-            // if it is out of range on start
-            $percent = 100;
-            $width = $percent / 2;
-            $this->isFinished = true;
-            $left = 0;
+        if (!$done) {
+            $done = 1.00;
+            $this->now += $done;
         } else {
-            $percent = floor(($done / $this->max) * 100);
-            $width = $percent / 2;
-            $left = 100 - $percent;
+            $this->now = $done;
         }
 
-        fwrite(STDERR, sprintf("\033[0G\033[2K[%'={$width}s>%-{$left}s] - $done/{$percent}%%", "", ""));
+        $percentage = $this->calcPercentLeft();
+
+        if ($percentage >= 100) {
+            $this->isFinished = true;
+        }
+
+        $percentageString = number_format($percentage, 2) . '%';
+        $barString = $this->generateBarString($percentage);
+
+        echo sprintf("%s %s/%s \r", $barString, $this->now, $percentageString);
+    }
+
+    /**
+     * Calculates percentage by provided progress value
+     *
+     * @return float
+     */
+    private function calcPercentLeft(): float
+    {
+        return ($this->now >= $this->max)
+            ? 100
+            : $this->now / $this->max * 100;
+    }
+
+    /**
+     * Calculates bar width placed in the output
+     *
+     * @return int
+     */
+    private function calcBarWidth(): int
+    {
+        if ($this->widthInPixels > 0) {
+            return $this->widthInPixels;
+        }
+
+        return (int)shell_exec("tput cols") - 8;
+    }
+
+    /**
+     * Returns progress string based on the percentage
+     *
+     * @param float $percentage
+     * @return string
+     */
+    private function generateBarString(float $percentage): string
+    {
+        $barWidth = $this->calcBarWidth();
+
+        $numBars = round(($percentage) / 100 * ($barWidth));
+        $numEmptyBars = $barWidth - $numBars;
+
+        return sprintf('[%s%s]', str_repeat("=", ($numBars)) , str_repeat(" ", ($numEmptyBars)));
+    }
+
+    /**
+     * Beatifies the percentage value for output placed near the bars
+     *
+     * @param float $percentage
+     * @return string
+     */
+    private function preparePercentageForOutput(float $percentage): string
+    {
+        $percentageString = number_format($percentage, 2) . '%';
+
+        return str_pad($percentageString,7," ",STR_PAD_LEFT);
     }
 }
