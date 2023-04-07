@@ -1,6 +1,6 @@
 <?php
 
-namespace Sitnikovik\CliBeatify\Progressbar;
+namespace Sitnikovik\Console\Progressbar;
 
 class Progressbar
 {

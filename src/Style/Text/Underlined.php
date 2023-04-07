@@ -1,8 +1,8 @@
 <?php
 
-namespace Sitnikovik\CliBeatify\Style\Text;
+namespace Sitnikovik\Console\Style\Text;
 
-use Sitnikovik\CliBeatify\Style\AbstractStyle;
+use Sitnikovik\Console\Style\AbstractStyle;
 
 class Underlined extends AbstractStyle
 {

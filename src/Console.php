@@ -1,11 +1,11 @@
 <?php
 
-namespace Sitnikovik\CliBeatify;
+namespace Sitnikovik\Console;
 
-use Sitnikovik\CliBeatify\Progressbar\Progressbar;
-use Sitnikovik\CliBeatify\Style\Background;
-use Sitnikovik\CliBeatify\Style\StyleInterface;
-use Sitnikovik\CliBeatify\Style\Text\Regular;
+use Sitnikovik\Console\Progressbar\Progressbar;
+use Sitnikovik\Console\Style\Background;
+use Sitnikovik\Console\Style\StyleInterface;
+use Sitnikovik\Console\Style\Text\Regular;
 
 class Console implements StyleInterface
 {

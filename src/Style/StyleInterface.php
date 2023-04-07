@@ -1,6 +1,6 @@
 <?php
 
-namespace Sitnikovik\CliBeatify\Style;
+namespace Sitnikovik\Console\Style;
 
 interface StyleInterface
 {
