@@ -2,6 +2,8 @@
 
 namespace Sitnikovik\Console\Progressbar;
 
+use Sitnikovik\Console\Console;
+
 class Progressbar
 {
     /**
@@ -95,7 +97,7 @@ class Progressbar
             return $this->widthInPixels;
         }
 
-        return (int)shell_exec("tput cols") - 8;
+        return Console::consoleWidth() - 8;
     }
 
     /**

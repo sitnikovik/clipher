@@ -20,14 +20,10 @@ class Console implements StyleInterface
      */
     protected $bgStyle;
 
-    /**
-     * @param StyleInterface|null $textStyle
-     * @param StyleInterface|null $bgStyle
-     */
-    public function __construct(?StyleInterface $textStyle = null, ?StyleInterface $bgStyle = null)
+    public function __construct()
     {
-        $this->textStyle = $textStyle ?? new Regular();
-        $this->bgStyle = $bgStyle ?? new Background();
+        $this->textStyle = new Regular();
+        $this->bgStyle = new Background();
     }
 
     /**
@@ -159,15 +155,12 @@ class Console implements StyleInterface
     /**
      * Prints separate line
      *
+     * @param int $width
      * @return void
      */
-    public static function separate(): void
+    public static function separate(int $width = 0): void
     {
-        echo PHP_EOL;
-        for ($i = 0; $i < 58; $i++) {
-            echo '=';
-        }
-        echo PHP_EOL;
+        echo PHP_EOL . str_repeat('=', $width ?: self::consoleWidth()) . PHP_EOL;
     }
 
     /**
@@ -226,5 +219,15 @@ class Console implements StyleInterface
         $approved = in_array(strtolower($answer), ['y', 'yes']);
 
         return ($yesOnDefault) ? empty($answer) || $approved : $approved;
+    }
+
+    /**
+     * Returns the console width
+     *
+     * @return int
+     */
+    public static function consoleWidth(): int
+    {
+        return (int)shell_exec("tput cols");
     }
 }
