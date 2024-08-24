@@ -1,6 +1,6 @@
 {
-    "name": "sitnikovik/console",
-    "description": "Beatifies your cli scripts with colors, bolds, loading bars and much more",
+    "name": "sitnikovik/clipher",
+    "description": "CLI tool to beatify your scripts with colors, bolds, loading bars and much more",
     "type": "library",
     "license": "MIT",
     "autoload": {
